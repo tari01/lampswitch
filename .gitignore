@@ -1,0 +1,5 @@
+project.geany
+TODO.txt
+data/usr/share/locale/*
+__pycache__/
+

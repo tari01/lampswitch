@@ -1,0 +1,30 @@
+#!/bin/bash
+
+set -e
+
+case "$1" in
+
+    configure)
+
+        chmod +x /usr/share/lampswitch/services.sh
+
+        # Disable autostart for web services
+        if systemctl is-active httpd --quiet; then systemctl disable httpd --quiet; fi
+        if systemctl is-active apache2 --quiet; then systemctl disable apache2 --quiet; fi
+        if systemctl is-active postgresql --quiet; then systemctl disable postgresql --quiet; fi
+        if systemctl is-active mariadb --quiet; then systemctl disable mariadb --quiet; fi
+        if systemctl is-active mysql --quiet; then systemctl disable mysql --quiet; fi
+    ;;
+
+    abort-upgrade|abort-remove|abort-deconfigure)
+    ;;
+
+    *)
+        echo "postinst called with unknown argument \`$1'" >&2
+        exit 1
+    ;;
+esac
+
+#DEBHELPER#
+
+exit 0

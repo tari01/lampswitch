@@ -1,0 +1,84 @@
+lampswitch (20.7.23) unstable; urgency=medium
+
+  * Add Ayatana Indicator support
+
+ -- Robert Tari <robert@tari.in>  Thu, 23 Jul 2020 01:55:00 +0200
+
+lampswitch (20.7.5) unstable; urgency=medium
+
+  * Add mariadb and httpd to list of services
+  * Fix deprecation
+  * Replace service with systemctl in pkexec file
+
+ -- Robert Tari <robert@tari.in>  Sun, 05 Jul 2020 10:18:00 +0200
+
+lampswitch (20.5.12) unstable; urgency=medium
+
+  * Use systemctl to disable services in postinst
+
+ -- Robert Tari <robert@tari.in>  Tue, 12 May 2020 18:24:01 +0200
+
+lampswitch (19.3.20) unstable; urgency=medium
+
+  * Drop dependecies from the setup module
+
+ -- Robert Tari <robert@tari.in>  Wed, 20 Mar 2019 12:40:58 +0100
+
+lampswitch (18.5.3) unstable; urgency=medium
+
+  * Replace gksu with pkexec
+  * Disable password prompt
+
+ -- Robert Tari <robert@tari.in>  Thu, 03 May 2018 02:46:54 +0200
+
+lampswitch (17.12.2) unstable; urgency=medium
+
+  * Changed home page URL
+
+ -- Robert Tari <robert@tari.in>  Sat, 02 Dec 2017 07:17:12 +0100
+
+lampswitch (16.05.03) unstable; urgency=medium
+
+  * Set psutil minimum required version
+  * Set icons for all desktop environments
+  * Check autostart on application load
+
+ -- Robert Tari <robert@tari.in>  Tue, 03 May 2016 12:39:35 +0200
+
+lampswitch (16.04.23) unstable; urgency=medium
+
+  * Updated to Python 3
+
+ -- Robert Tari <robert@tari.in>  Sat, 23 Apr 2016 00:46:56 +0200
+
+lampswitch (15.12.27) unstable; urgency=medium
+
+  * Updated website URL
+
+ -- Robert Tari <robert@tari.in>  Sun, 27 Dec 2015 19:01:19 +0100
+
+lampswitch (14.07.13) unstable; urgency=medium
+
+  * Web Services disabled by default
+  * Now also controls PostgreSQL
+
+ -- Robert Tari <robert@tari.in>  Sun, 13 Jul 2014 19:09:49 +0200
+
+lampswitch (13.08.27) unstable; urgency=low
+
+  * Added separate application and indicator icons
+
+ -- Robert Tari <robert@tari.in>  Tue, 27 Aug 2013 13:53:16 +0200
+
+lampswitch (13.08.26) unstable; urgency=low
+
+  * Added apache2 as dependency
+  * Using psutil to check for running instances
+
+ -- Robert Tari <robert@tari.in>  Mon, 26 Aug 2013 14:38:37 +0200
+
+lampswitch (13.08.22) unstable; urgency=low
+
+  * Initial release
+
+ -- Robert Tari <robert@tari.in>  Thu, 22 Aug 2013 16:53:17 +0200

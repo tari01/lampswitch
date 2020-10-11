@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=LAMP Switch
+Comment=Indicator and control applet for Apache
+Categories=Utility;GTK;WebDevelopment;
+Exec=lampswitch
+Icon=lampswitch
+StartupNotify=true
+Terminal=false
+Type=Application
+X-Ubuntu-Gettext-Domain=lampswitch
+X-GNOME-Autostart-enabled=true
