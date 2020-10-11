@@ -1,3 +1,9 @@
+lampswitch (20.7.24) unstable; urgency=medium
+
+  * Version bump
+
+ -- Robert Tari <robert@tari.in>  Thu, 24 Jul 2020 19:55:00 +0200
+
 lampswitch (20.7.23) unstable; urgency=medium
 
   * Add Ayatana Indicator support
