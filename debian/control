@@ -9,7 +9,7 @@ X-Python3-Version: >= 3.6
 
 Package: lampswitch
 Architecture: all
-Depends: ${misc:Depends}, ${python3:Depends}, python3-gi, gir1.2-gtk-3.0, gir1.2-appindicator3-0.1, python3-psutil
+Depends: ${misc:Depends}, ${python3:Depends}, python3-gi, gir1.2-gtk-3.0, gir1.2-appindicator3-0.1 | gir1.2-ayatanaappindicator3-0.1, python3-psutil
 Description: Indicator and control applet for Apache
  This indicator shows the current state of the Apache web server, and
  allows the user to quickly start/stop/restart the service from its menu.
