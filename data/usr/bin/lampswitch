@@ -22,7 +22,7 @@ try:
 
 except ValueError:
 
-    gi.require_version('AyatanaAppIndicator3', '0.1')
+    gi.require_version('AppIndicator3', '0.1')
     from gi.repository import AppIndicator3 as AppIndicator
 
 from gi.repository import Gtk, GdkPixbuf, GLib
@@ -76,22 +76,18 @@ class LampSwitch:
 
                 sys.exit(1)
 
+        self.oMenu = Gtk.Menu.new()
+        self.oMenuItemStart = Gtk.MenuItem.new_with_label(_('Start'))
+        self.oMenuItemStart.connect('activate', self.onMenuitemStartActivate)
+        self.oMenu.append(self.oMenuItemStart)
+        self.oMenuItemStop = Gtk.MenuItem.new_with_label(_('Stop'))
+        self.oMenuItemStop.connect('activate', self.onMenuitemStopActivate)
+        self.oMenu.append(self.oMenuItemStop)
+        self.oMenuItemRestart = Gtk.MenuItem.new_with_label(_('Restart'))
+        self.oMenuItemRestart.connect('activate', self.onMenuitemRestartActivate)
+        self.oMenu.append(self.oMenuItemRestart)
+        self.oMenu.show_all()
         self.oIndicator = AppIndicator.Indicator.new(APPNAME, APPNAME + '-active', AppIndicator.IndicatorCategory.APPLICATION_STATUS)
-        oBuilder = Gtk.Builder()
-        oBuilder.set_translation_domain(APPNAME)
-        oBuilder.add_from_file(self.getDataPath('/usr/share/' + APPNAME + '/' + APPNAME + '.glade'))
-        oBuilder.connect_signals(self)
-
-        for oObject in oBuilder.get_objects():
-
-            try:
-
-                self.__dict__[self.classVar(Gtk.Buildable.get_name(oObject))] = oObject
-
-            except:
-
-                pass
-
         self.oIndicator.set_attention_icon_full(APPNAME + '-attention', 'Web server running')
         self.oIndicator.set_status(AppIndicator.IndicatorStatus.ACTIVE)
         self.oIndicator.set_menu(self.oMenu)
@@ -105,28 +101,6 @@ class LampSwitch:
 
             sys.exit(0)
 
-    def classVar(self, sID):
-
-        return 'o' + sID[0:1].upper() + sID[1:]
-
-    def getDataPath(self, sPath):
-
-        try:
-
-            sExecPath = os.path.split(APPEXECUTABLE)[0]
-            sDataPath = os.getcwd().replace(sExecPath, '')
-            sRelativePath = os.path.join(sDataPath, sPath.lstrip('/'))
-
-            if os.path.exists(sRelativePath):
-
-                return sRelativePath
-
-        except:
-
-            pass
-
-        return sPath
-
     def isRunning(self):
 
         bRunningHttpd = subprocess.Popen('systemctl is-active httpd', stdout = subprocess.PIPE, shell = True).communicate()[0].decode().strip() == 'active'
@@ -139,35 +113,18 @@ class LampSwitch:
 
     def onMenuitemStopActivate(self, widget):
 
-        subprocess.Popen('pkexec ' + self.getDataPath('/usr/share/lampswitch/services.sh') + ' stop', shell = True).wait()
+        subprocess.Popen('pkexec /usr/share/lampswitch/services.sh stop', shell = True).wait()
         self.isRunning()
 
     def onMenuitemStartActivate(self, widget):
 
-        subprocess.Popen('pkexec ' + self.getDataPath('/usr/share/lampswitch/services.sh') + ' start', shell = True).wait()
+        subprocess.Popen('pkexec /usr/share/lampswitch/services.sh start', shell = True).wait()
         self.isRunning()
 
     def onMenuitemRestartActivate(self, widget):
 
-        subprocess.Popen('pkexec ' + self.getDataPath('/usr/share/lampswitch/services.sh') + ' restart', shell = True).wait()
+        subprocess.Popen('pkexec /usr/share/lampswitch/services.sh restart', shell = True).wait()
         self.isRunning()
-
-    def onMenuitemAboutActivate(self, widget, data = None):
-
-        oAboutDialog = Gtk.AboutDialog()
-        oAboutDialog.set_title(_('About ') + APPTITLE)
-        oAboutDialog.set_license_type(Gtk.License.GPL_3_0)
-        oAboutDialog.set_program_name(APPTITLE)
-        oAboutDialog.set_copyright(APPAUTHOR + ' ' + (APPYEAR if APPYEAR[-2:] == APPVERSION[:2] else APPYEAR + '-20' + APPVERSION[:2]))
-        oAboutDialog.set_comments(_(APPDESCRIPTION))
-        oAboutDialog.set_authors([APPAUTHOR + ' &lt;' + APPMAIL + '&gt;'])
-        oAboutDialog.set_translator_credits(_('translator-credits'))
-        oAboutDialog.set_version(APPVERSION)
-        oAboutDialog.set_website(APPURL)
-        oAboutDialog.set_website_label(APPURL)
-        oAboutDialog.set_logo(GdkPixbuf.Pixbuf().new_from_file(self.getDataPath('/usr/share/icons/hicolor/scalable/apps/' + APPNAME + '.svg')))
-        oAboutDialog.run()
-        oAboutDialog.destroy()
 
 if __name__ == "__main__":
 
