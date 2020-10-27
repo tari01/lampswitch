@@ -5,3 +5,4 @@ systemctl $@ httpd
 systemctl $@ postgresql
 systemctl $@ mariadb
 systemctl $@ mysql
+systemctl $@ nginx
