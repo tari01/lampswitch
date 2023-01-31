@@ -3,7 +3,7 @@
 
 APPNAME = 'lampswitch'
 APPEXECUTABLE='/usr/bin/lampswitch'
-APPVERSION = '22.9.9'
+APPVERSION = '23.1.31'
 APPSHOWSETTINGS = 170323
 APPYEAR = '2013'
 APPTITLE = 'LAMP Switch'
