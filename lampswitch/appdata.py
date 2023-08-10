@@ -12,5 +12,5 @@ APPLONGDESCRIPTION = 'This indicator shows the current running state of the web 
 APPAUTHOR = 'Robert Tari'
 APPMAIL = 'robert@tari.in'
 APPURL = 'https://tari.in/www/software/lampswitch/'
-APPKEYWORDS = ['lamp', 'apache', 'php', 'mysql','indicator', 'httpd', 'postgre', 'mariadb', 'nginx', 'uwsgi']
+APPKEYWORDS = ['lamp', 'apache', 'php', 'mysql', 'indicator', 'httpd', 'postgre', 'mariadb', 'nginx', 'uwsgi', 'php-fpm']
 APPDEBUG = []
