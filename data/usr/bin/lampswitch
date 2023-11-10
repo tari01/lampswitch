@@ -106,7 +106,8 @@ class LampSwitch:
         bRunningHttpd = subprocess.Popen('systemctl is-active httpd', stdout = subprocess.PIPE, shell = True).communicate()[0].decode().strip() == 'active'
         bRunningApache2 = subprocess.Popen('systemctl is-active apache2', stdout = subprocess.PIPE, shell = True).communicate()[0].decode().strip() == 'active'
         bRunningNginx = subprocess.Popen('systemctl is-active nginx', stdout = subprocess.PIPE, shell = True).communicate()[0].decode().strip() == 'active'
-        bRunning = any([bRunningHttpd, bRunningApache2, bRunningNginx])
+        bRunningPhp = subprocess.Popen('systemctl is-active php-fpm', stdout = subprocess.PIPE, shell = True).communicate()[0].decode().strip() == 'active'
+        bRunning = any([bRunningHttpd, bRunningApache2, bRunningNginx, bRunningPhp])
         self.oIndicator.set_status(AppIndicator.IndicatorStatus.ATTENTION if bRunning else AppIndicator.IndicatorStatus.ACTIVE)
         self.oMenuItemStop.set_sensitive(bRunning)
         self.oMenuItemStart.set_sensitive(not bRunning)
