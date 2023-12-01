@@ -1,3 +1,7 @@
+# 23.12.1
+
+ - data/usr/bin/lampswitch: Check for php-fpm when determining running state (3f59f91)
+
 # 23.9.1
 
  - Add php-fpm service (c8b9c76)
