@@ -14,17 +14,9 @@ except:
 import gi
 
 gi.require_version('Gtk', '3.0')
+gi.require_version('AyatanaAppIndicator3', '0.1')
 
-try:
-
-    gi.require_version('AyatanaAppIndicator3', '0.1')
-    from gi.repository import AyatanaAppIndicator3 as AppIndicator
-
-except ValueError:
-
-    gi.require_version('AppIndicator3', '0.1')
-    from gi.repository import AppIndicator3 as AppIndicator
-
+from gi.repository import AyatanaAppIndicator3
 from gi.repository import Gtk, GdkPixbuf, GLib
 import psutil
 import os
@@ -87,9 +79,9 @@ class LampSwitch:
         self.oMenuItemRestart.connect('activate', self.onMenuitemRestartActivate)
         self.oMenu.append(self.oMenuItemRestart)
         self.oMenu.show_all()
-        self.oIndicator = AppIndicator.Indicator.new(APPNAME, APPNAME + '-active', AppIndicator.IndicatorCategory.APPLICATION_STATUS)
+        self.oIndicator = AyatanaAppIndicator3.Indicator.new(APPNAME, APPNAME + '-active', AyatanaAppIndicator3.IndicatorCategory.APPLICATION_STATUS)
         self.oIndicator.set_attention_icon_full(APPNAME + '-attention', 'Web server running')
-        self.oIndicator.set_status(AppIndicator.IndicatorStatus.ACTIVE)
+        self.oIndicator.set_status(AyatanaAppIndicator3.IndicatorStatus.ACTIVE)
         self.oIndicator.set_menu(self.oMenu)
         self.isRunning()
 
@@ -108,7 +100,7 @@ class LampSwitch:
         bRunningNginx = subprocess.Popen('systemctl is-active nginx', stdout = subprocess.PIPE, shell = True).communicate()[0].decode().strip() == 'active'
         bRunningPhp = subprocess.Popen('systemctl is-active php-fpm', stdout = subprocess.PIPE, shell = True).communicate()[0].decode().strip() == 'active'
         bRunning = any([bRunningHttpd, bRunningApache2, bRunningNginx, bRunningPhp])
-        self.oIndicator.set_status(AppIndicator.IndicatorStatus.ATTENTION if bRunning else AppIndicator.IndicatorStatus.ACTIVE)
+        self.oIndicator.set_status(AyatanaAppIndicator3.IndicatorStatus.ATTENTION if bRunning else AyatanaAppIndicator3.IndicatorStatus.ACTIVE)
         self.oMenuItemStop.set_sensitive(bRunning)
         self.oMenuItemStart.set_sensitive(not bRunning)
         self.oMenuItemRestart.set_sensitive(bRunning)
