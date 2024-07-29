@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: lampswitch\n"
 "Report-Msgid-Bugs-To: https://github.com/tari01/lampswitch/issues\n"
-"POT-Creation-Date: 2022-06-29 03:02+0200\n"
+"POT-Creation-Date: 2024-07-29 15:51+0200\n"
 "PO-Revision-Date: 2018-02-17 07:33+0000\n"
 "Last-Translator: Robert Tari <Unknown>\n"
 "Language-Team: Slovenian <sl@li.org>\n"
@@ -16,38 +16,27 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: data/usr/bin/lampswitch:80
+#: src/main.c:129
 msgid "Start"
 msgstr "Zagon"
 
-#: data/usr/bin/lampswitch:83
+#: src/main.c:132
 msgid "Stop"
 msgstr "Ustavi"
 
-#: data/usr/bin/lampswitch:86
+#: src/main.c:135
 msgid "Restart"
 msgstr "Ponovni zagon"
 
-#~ msgid "About "
-#~ msgstr "O programu "
+#: data/lampswitch.desktop.in:3
+msgid "LAMP Switch"
+msgstr ""
+
+#: data/lampswitch.desktop.in:4
+msgid "Indicator and control applet for Web services"
+msgstr ""
 
 #~ msgid "translator-credits"
 #~ msgstr ""
 #~ "Launchpad Contributions:\n"
-#~ "  Matic Gradišer https://launchpad.net/~0micky\n"
-#~ "  Robert Tari https://launchpad.net/~robert-tari"
-
-#~ msgid "Stop the Web server"
-#~ msgstr "Ustavi spletni strežnik"
-
-#~ msgid "Start the Web server"
-#~ msgstr "Zaženi spletni strežnik"
-
-#~ msgid "Restart the Web server"
-#~ msgstr "Ponovno zaženi spletni strežnik"
-
-#~ msgid "About LAMP Switch"
-#~ msgstr "O programu LAMP Switch"
-
-#~ msgid "About this application..."
-#~ msgstr "O tem programu..."
+#~ "  Matic Gradišer https://launchpad.net/~0micky"

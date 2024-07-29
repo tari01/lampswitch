@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=LAMP Switch
+Comment=Indicator and control applet for Web services
+Icon=lampswitch
+Exec=@CMAKE_INSTALL_FULL_BINDIR@/lampswitch
+Type=Application
+Categories=Utility;GTK;WebDevelopment;

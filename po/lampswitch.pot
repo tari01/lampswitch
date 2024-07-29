@@ -1,30 +1,38 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR Robert Tari
+# Translation of lampswitch in LANGUAGE
+# Copyright (C) 2024 Robert Tari
 # This file is distributed under the same license as the lampswitch package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: lampswitch 20.10.27\n"
+"Project-Id-Version: lampswitch 23.12.1\n"
 "Report-Msgid-Bugs-To: https://github.com/tari01/lampswitch/issues\n"
-"POT-Creation-Date: 2022-06-29 03:02+0200\n"
+"POT-Creation-Date: 2024-07-29 15:51+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: data/usr/bin/lampswitch:80
+#: src/main.c:129
 msgid "Start"
 msgstr ""
 
-#: data/usr/bin/lampswitch:83
+#: src/main.c:132
 msgid "Stop"
 msgstr ""
 
-#: data/usr/bin/lampswitch:86
+#: src/main.c:135
 msgid "Restart"
+msgstr ""
+
+#: data/lampswitch.desktop.in:3
+msgid "LAMP Switch"
+msgstr ""
+
+#: data/lampswitch.desktop.in:4
+msgid "Indicator and control applet for Web services"
 msgstr ""
