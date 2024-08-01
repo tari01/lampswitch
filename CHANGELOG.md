@@ -1,3 +1,8 @@
+# 24.8.1
+
+ - Rewrite using C and CMake (3e0c095)
+ - data/usr/bin/lampswitch: Drop AppIndicator3 and use Ayatana (f960777)
+
 # 23.12.1
 
  - data/usr/bin/lampswitch: Check for php-fpm when determining running state (3f59f91)
