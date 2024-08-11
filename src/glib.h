@@ -1,4 +1,9 @@
+#ifndef __GLIB__
+#define __GLIB__
+
 #include <glib.h>
+
+G_BEGIN_DECLS
 
 static gboolean string_Equal (gchar *sText, gchar *sText2)
 {
@@ -15,3 +20,7 @@ static gchar* string_Remove (gchar *sText, gchar *sRemove)
 
     return sNewText;
 }
+
+G_END_DECLS
+
+#endif
