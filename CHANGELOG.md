@@ -1,3 +1,7 @@
+# 24.9.1
+
+ - src/glib.h: Add inclusion sentinel (44111de)
+
 # 24.8.1
 
  - Rewrite using C and CMake (3e0c095)
