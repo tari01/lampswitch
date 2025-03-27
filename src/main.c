@@ -1,5 +1,5 @@
 /*
-    Copyright 2013-2024 Robert Tari <robert@tari.in>
+    Copyright 2013-2025 Robert Tari <robert@tari.in>
 
     This file is part of LAMP Switch.
 
@@ -18,14 +18,10 @@
 */
 
 #include <glib/gi18n.h>
-#include <gtk/gtk.h>
 #include <locale.h>
-#include <libayatana-appindicator/app-indicator.h>
+#include <ayatana-appindicator.h>
 #include "glib.h"
 
-GtkWidget *m_pMenuItemStart = NULL;
-GtkWidget *m_pMenuItemStop = NULL;
-GtkWidget *m_pMenuItemRestart = NULL;
 AppIndicator *m_pIndicator = NULL;
 
 static void isRunning ()
@@ -63,18 +59,24 @@ static void isRunning ()
     if (bRunning)
     {
         app_indicator_set_status (m_pIndicator, APP_INDICATOR_STATUS_ATTENTION);
+        app_indicator_set_tooltip (m_pIndicator, NULL, NULL, _("Web services are running"));
     }
     else
     {
         app_indicator_set_status (m_pIndicator, APP_INDICATOR_STATUS_ACTIVE);
+        app_indicator_set_tooltip (m_pIndicator, NULL, NULL, _("Web services are stopped"));
     }
 
-    gtk_widget_set_sensitive (m_pMenuItemStop, bRunning);
-    gtk_widget_set_sensitive (m_pMenuItemStart, !bRunning);
-    gtk_widget_set_sensitive (m_pMenuItemRestart, bRunning);
+    GSimpleActionGroup *pActions = app_indicator_get_actions (m_pIndicator);
+    GAction *pAction = g_action_map_lookup_action (G_ACTION_MAP (pActions), "stop");
+    g_object_set (G_OBJECT (pAction), "enabled", bRunning, NULL);
+    pAction = g_action_map_lookup_action (G_ACTION_MAP (pActions), "start");
+    g_object_set (G_OBJECT (pAction), "enabled", !bRunning, NULL);
+    pAction = g_action_map_lookup_action (G_ACTION_MAP (pActions), "restart");
+    g_object_set (G_OBJECT (pAction), "enabled", bRunning, NULL);
 }
 
-static void onStop (GtkMenuItem *pItem, gpointer pData)
+static void onStop (GSimpleAction *pAction, GVariant *pValue, gpointer pData)
 {
     GError *pError = NULL;
     g_spawn_command_line_sync ("pkexec " DATADIR "/lampswitch/services.sh stop", NULL, NULL, NULL, &pError);
@@ -90,7 +92,7 @@ static void onStop (GtkMenuItem *pItem, gpointer pData)
     isRunning ();
 }
 
-static void onStart (GtkMenuItem *pItem, gpointer pData)
+static void onStart (GSimpleAction *pAction, GVariant *pValue, gpointer pData)
 {
     GError *pError = NULL;
     g_spawn_command_line_sync ("pkexec " DATADIR "/lampswitch/services.sh start", NULL, NULL, NULL, &pError);
@@ -106,7 +108,7 @@ static void onStart (GtkMenuItem *pItem, gpointer pData)
     isRunning ();
 }
 
-static void onRestart (GtkMenuItem *pItem, gpointer pData)
+static void onRestart (GSimpleAction *pAction, GVariant *pValue, gpointer pData)
 {
     GError *pError = NULL;
     g_spawn_command_line_sync ("pkexec " DATADIR "/lampswitch/services.sh restart", NULL, NULL, NULL, &pError);
@@ -125,21 +127,44 @@ static void onRestart (GtkMenuItem *pItem, gpointer pData)
 static void onStartup (GApplication *pApplication, gpointer pData)
 {
     g_application_hold (G_APPLICATION (pApplication));
-    GtkWidget* pMenu = gtk_menu_new ();
-    m_pMenuItemStart = gtk_menu_item_new_with_label (_("Start"));
-    g_signal_connect (m_pMenuItemStart, "activate", G_CALLBACK (onStart), NULL);
-    gtk_menu_shell_append (GTK_MENU_SHELL (pMenu), m_pMenuItemStart);
-    m_pMenuItemStop = gtk_menu_item_new_with_label (_("Stop"));
-    g_signal_connect (m_pMenuItemStop, "activate", G_CALLBACK (onStop), NULL);
-    gtk_menu_shell_append (GTK_MENU_SHELL (pMenu), m_pMenuItemStop);
-    m_pMenuItemRestart = gtk_menu_item_new_with_label (_("Restart"));
-    g_signal_connect (m_pMenuItemRestart, "activate", G_CALLBACK (onRestart), NULL);
-    gtk_menu_shell_append (GTK_MENU_SHELL (pMenu), m_pMenuItemRestart);
-    gtk_widget_show_all (pMenu);
     m_pIndicator = app_indicator_new ("lampswitch", "lampswitch-active", APP_INDICATOR_CATEGORY_APPLICATION_STATUS);
-    app_indicator_set_attention_icon_full (m_pIndicator, "lampswitch-attention", "Web server running");
-    app_indicator_set_status (m_pIndicator, APP_INDICATOR_STATUS_ACTIVE);
-    app_indicator_set_menu (m_pIndicator, GTK_MENU (pMenu));
+    app_indicator_set_attention_icon (m_pIndicator, "lampswitch-attention", _("Web services are running"));
+    GMenu *pMenu = g_menu_new ();
+    GSimpleActionGroup *pActions = g_simple_action_group_new ();
+    GSimpleAction *pSimpleAction = g_simple_action_new ("start", NULL);
+    g_action_map_add_action (G_ACTION_MAP (pActions), G_ACTION (pSimpleAction));
+    g_signal_connect (pSimpleAction, "activate", G_CALLBACK (onStart), NULL);
+    g_object_unref (pSimpleAction);
+    GMenuItem *pItem = g_menu_item_new (_("Start"), "indicator.start");
+    GIcon *pIcon = g_themed_icon_new_with_default_fallbacks ("media-playback-start");
+    g_menu_item_set_icon (pItem, pIcon);
+    g_object_unref (pIcon);
+    g_menu_append_item (pMenu, pItem);
+    g_object_unref (pItem);
+    pSimpleAction = g_simple_action_new ("stop", NULL);
+    g_action_map_add_action (G_ACTION_MAP (pActions), G_ACTION (pSimpleAction));
+    g_signal_connect (pSimpleAction, "activate", G_CALLBACK (onStop), NULL);
+    g_object_unref (pSimpleAction);
+    pItem = g_menu_item_new (_("Stop"), "indicator.stop");
+    pIcon = g_themed_icon_new_with_default_fallbacks ("media-playback-stop");
+    g_menu_item_set_icon (pItem, pIcon);
+    g_object_unref (pIcon);
+    g_menu_append_item (pMenu, pItem);
+    g_object_unref (pItem);
+    pSimpleAction = g_simple_action_new ("restart", NULL);
+    g_action_map_add_action (G_ACTION_MAP (pActions), G_ACTION (pSimpleAction));
+    g_signal_connect (pSimpleAction, "activate", G_CALLBACK (onRestart), NULL);
+    g_object_unref (pSimpleAction);
+    pItem = g_menu_item_new (_("Restart"), "indicator.restart");
+    pIcon = g_themed_icon_new_with_default_fallbacks ("view-refresh");
+    g_menu_item_set_icon (pItem, pIcon);
+    g_object_unref (pIcon);
+    g_menu_append_item (pMenu, pItem);
+    g_object_unref (pItem);
+    app_indicator_set_menu (m_pIndicator, pMenu);
+    g_object_unref (pMenu);
+    app_indicator_set_actions (m_pIndicator, pActions);
+    g_object_unref (pActions);
     isRunning ();
 }
 
@@ -149,9 +174,9 @@ gint main (gint argc, gchar *argv[])
     bindtextdomain ("lampswitch", LOCALEDIR);
     textdomain ("lampswitch");
     bind_textdomain_codeset ("lampswitch", "UTF-8");
-    GtkApplication *pApplication = gtk_application_new ("in.tari.lampswitch", G_APPLICATION_IS_SERVICE);
+    GApplication *pApplication = g_application_new ("in.tari.lampswitch", G_APPLICATION_IS_SERVICE);
     g_signal_connect (pApplication, "startup", G_CALLBACK (onStartup), NULL);
-    gint nStatus = g_application_run (G_APPLICATION (pApplication), argc, argv);
+    gint nStatus = g_application_run (pApplication, argc, argv);
 
     return nStatus;
 }

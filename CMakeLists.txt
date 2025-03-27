@@ -9,7 +9,7 @@ endif (CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
 
 option (ENABLE_WERROR "Treat all build warnings as errors" OFF)
 
-set(CMAKE_BUILD_TYPE "Release")
+set (CMAKE_BUILD_TYPE "Release")
 
 if (ENABLE_WERROR)
     add_definitions ("-Werror")
@@ -26,12 +26,7 @@ endif ()
 include (GNUInstallDirs)
 find_package (PkgConfig REQUIRED)
 include (FindPkgConfig)
-pkg_check_modules (DEPS REQUIRED gtk+-3.0 ayatana-appindicator3-0.1)
-
-# Translation
-
-set (GETTEXT_PACKAGE "lampswitch")
-add_definitions (-DGETTEXT_PACKAGE="${GETTEXT_PACKAGE}" -DLOCALEDIR="${CMAKE_INSTALL_FULL_LOCALEDIR}")
+pkg_check_modules (DEPS REQUIRED ayatana-appindicator-glib)
 
 # Build
 
